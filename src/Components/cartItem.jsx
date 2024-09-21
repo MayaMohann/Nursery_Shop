@@ -1,41 +1,45 @@
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { removeItem, updateQuantity } from './CartSlice'; // Import the actions and reducer
+import { removeItem, updateQuantity } from './CartSlice';
 import './cartItem.css';
 
 const CartItem = ({ cartItems, onContinueShopping }) => {
   const dispatch = useDispatch();
 
-  // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
     return cartItems.reduce((total, item) => {
-      const cost = parseFloat(item.cost.replace('$', '')); // Remove the $ sign and parse as number
+      const cost = parseFloat(item.cost.replace('$', ''));
       return total + cost * item.quantity;
     }, 0);
   };
 
   const handleContinueShopping = (e) => {
     e.preventDefault();
-    onContinueShopping(); // Call the parent method passed down as a prop
+    onContinueShopping();
   };
 
   const handleIncrement = (item) => {
-    dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 })); // Using 'id' for a unique key
+    dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
-      dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 })); // Using 'id'
+      dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }));
     }
   };
 
   const handleRemove = (item) => {
-    dispatch(removeItem({ id: item.id })); // Use 'id' instead of 'name' for unique identification
+    dispatch(removeItem({ id: item.id }));
   };
 
   const calculateTotalCost = (item) => {
-    const cost = parseFloat(item.cost.replace('$', '')); // Remove the $ sign and parse as number
+    const cost = parseFloat(item.cost.replace('$', ''));
     return cost * item.quantity;
+  };
+
+  const handleCheckout = () => {
+    // Implement your checkout logic here
+    alert("Proceeding to Checkout");
   };
 
   return (
@@ -73,30 +77,30 @@ const CartItem = ({ cartItems, onContinueShopping }) => {
           </div>
         ))}
       </div>
-      <div style={{ marginTop: '20px', color: 'black' }} className="total_cart_amount"></div>
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={handleContinueShopping}>
           Continue Shopping
         </button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={handleCheckout}>
+          Checkout
+        </button>
       </div>
     </div>
   );
 };
 
-// Define propTypes for CartItem
 CartItem.propTypes = {
   cartItems: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired, // Assuming id is a string
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
-      cost: PropTypes.string.isRequired, // Cost is a string with $ symbol
+      cost: PropTypes.string.isRequired,
       quantity: PropTypes.number.isRequired,
     })
-  ).isRequired, // cartItems is required and should be an array
-  onContinueShopping: PropTypes.func.isRequired, // Validate that onContinueShopping is required and is a function
+  ).isRequired,
+  onContinueShopping: PropTypes.func.isRequired,
 };
 
 export default CartItem;

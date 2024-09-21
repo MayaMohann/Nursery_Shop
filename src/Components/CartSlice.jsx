@@ -3,15 +3,15 @@ import { createSlice } from '@reduxjs/toolkit';
 export const CartSlice = createSlice({
   name: 'cart',
   initialState: {
-    items: [], // Initialize items as an empty array
+    items: [],
   },
   reducers: {
     addItem: (state, action) => {
       const existingItem = state.items.find(item => item.id === action.payload.id);
       if (existingItem) {
-        existingItem.quantity += action.payload.quantity;
+        existingItem.quantity += action.payload.quantity; // Increment quantity
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({ ...action.payload, quantity: 1 }); // Initialize quantity
       }
     },
     
@@ -19,13 +19,11 @@ export const CartSlice = createSlice({
       state.items = state.items.filter(item => item.id !== action.payload.id);
     },
     
-    // Updates the quantity of an item in the cart by its id
     updateQuantity: (state, action) => {
       const { id, quantity } = action.payload;
       const existingItem = state.items.find(item => item.id === id);
       if (existingItem && quantity > 0) {
-        // Update the item's quantity only if the new quantity is greater than 0
-        existingItem.quantity = quantity;
+        existingItem.quantity = quantity; // Update quantity
       }
     },
   },
