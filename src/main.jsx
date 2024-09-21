@@ -4,7 +4,7 @@ import App from './App.jsx';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit'; // Use configureStore instead of createStore
 // import CartSlice from './Components/CartSlice.jsx';
-import CartSlice from './Components/cartSlice.js';
+import CartSlice from './Components/CartSlice.jsx';
  // Import your cartSlice reducer
 
 const store = configureStore({
